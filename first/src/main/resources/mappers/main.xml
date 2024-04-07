@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+xml의 경우, html과 유사하여
+- 닫는 태그 필요
+- 속성 추가할 수 있음
+mapper 안에 쿼리문 추가
+-->
+
+<mapper namespace="com.example.first.dao.DeptDao">
+    <select id="selectList" resultType="Dept">
+        select deptno, dept, loc from dept
+    </select>
+</mapper>

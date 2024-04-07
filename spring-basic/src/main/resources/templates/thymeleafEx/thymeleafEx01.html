@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--thymeleaf 사용하기 위해서는 html안에 'xmlns:th=' 부분 반드시 선언 필요-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+    <p>안녕하세요</p>
+    <p>안녕하세요</p>
+    <p>안녕하세요</p>
+
+    <!-- 태그 내부에 텍스트를 출력 -->
+    <p th:text="${data}">hello!</p>
+    <p th:text="${result}">hello!</p>
+
+    <!-- th:text를 사용하지 않고 값을 찍을 때 -->
+    [[${data}]]
+    <p>[[${result} + '년']]</p>
+</body>
+</html>
