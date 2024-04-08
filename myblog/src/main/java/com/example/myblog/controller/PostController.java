@@ -3,6 +3,7 @@ package com.example.myblog.controller;
 import com.example.myblog.dto.Post;
 import com.example.myblog.service.PostService;
 import com.example.myblog.util.PagingUtil;
+import com.example.myblog.util.PhotoUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Delete;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -28,6 +30,9 @@ public class PostController {
 
     @Autowired
     PagingUtil pagingUtil;
+
+    @Autowired
+    PhotoUtil photoUtil;
 
     @GetMapping(value = "/") // localhost/로 접속
     public String index() {
@@ -272,4 +277,22 @@ public class PostController {
         return new ResponseEntity<Integer>(postId, HttpStatus.OK);
     }
 
+    //서버에 이미지 업로드 request
+    @PostMapping(value = "/postImgUpload")
+    public String postImgUpload(MultipartHttpServletRequest request, Model model) {
+
+        // /images/8840ebc8-4fe5.jpg
+        String uploadPath = photoUtil.ckUpload(request);
+
+        model.addAttribute("uploaded", true);
+        model.addAttribute("url", uploadPath);
+
+        /*
+            {
+             "uploaded": true,
+             "url": uploadPath
+            }
+        */
+        return "jsonView"; //model에 있는 값들이 json 객체 형식으로 forward 된다.
+    }
 }

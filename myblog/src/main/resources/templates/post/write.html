@@ -64,7 +64,11 @@
         let myEditor;
 
         ClassicEditor
-            .create( document.querySelector( '#editor' ) )
+            .create( document.querySelector( '#editor' ), {
+                ckfinder: {
+                    uploadUrl : '/postImgUpload' //이미지 request 주소
+                }
+             })
             .then(editor => {
                 myEditor = editor; //생성한 에디터 객체
             })
