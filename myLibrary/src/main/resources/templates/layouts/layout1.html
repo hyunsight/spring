@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyLibrary</title>
+
+    <!-- 공통으로 사용할 CSS-->
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{img/core-img/favicon.ico}">
+    <!-- Style CSS -->
+    <link rel="stylesheet" th:href="@{css/style.css}">
+
+    <!-- 각 페이지의 CSS가 작성될 위치지정 -->
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+
+    <div th:replace="fragments/header::header"></div>
+
+    <div layout:fragment="content" class="content"></div>
+
+    <div th:replace="fragments/footer::footer"></div>
+
+    <!-- 공통으로 사용할 커스터마이징 된 JS-->
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script th:src="@{js/jquery/jquery-2.2.4.min.js}"></script>
+    <!-- Popper js -->
+    <script th:src="@{js/popper.min.js}"></script>
+    <!-- Bootstrap js -->
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <!-- Plugins js -->
+    <script th:src="@{js/plugins.js}"></script>
+    <!-- Active js -->
+    <script th:src="@{js/active.js}"></script>
+
+    <!-- 각 페이지의 JS가 작성될 위치지정 -->
+    <th:block layout:fragment="script"></th:block>
+</body>
+</html>
