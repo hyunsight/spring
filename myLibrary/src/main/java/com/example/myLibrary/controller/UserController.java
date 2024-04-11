@@ -24,7 +24,7 @@ public class UserController {
             User loginUser = userService.loginUser(user);
 
             if (loginUser != null) {
-                session.setAttribute("userId", loginUser.getId());
+                session.setAttribute("id", loginUser.getId());
                 session.setAttribute("userName", loginUser.getUserName());
                 session.setAttribute("userGrade", loginUser.getUserGrade());
                 return "redirect:/";
@@ -42,6 +42,7 @@ public class UserController {
     public String logoutUser(HttpSession session) {
         session.removeAttribute("userId");
         session.removeAttribute("userName");
+        session.removeAttribute("userGrade");
 
         return "redirect:/";
     }

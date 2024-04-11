@@ -14,7 +14,7 @@ public class PagingUtil {
     private int numPerPage; //페이지당 보여줄 게시물의 갯수
     private int totalPage; //페이지의 전체 갯수
     private int currentPage = 1; //현재 페이지(디폴트는 첫번째 페이지를 보여주므로 1)
-    private int start; // rownum의 시작값
+    private int start; //rownum의 시작값
     private int end; // rownum의 끝값
 
     public void resetPaging(int dataCount, int numPerPage) {

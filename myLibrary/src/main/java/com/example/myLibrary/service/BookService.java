@@ -8,4 +8,9 @@ import java.util.Map;
 public interface BookService {
     public List<Book> getBookList(Map map) throws Exception;
 
+    public int getDataCount(Map map) throws Exception;
+
+    public Book getBookRead(int bookId) throws Exception;
+
+
 }

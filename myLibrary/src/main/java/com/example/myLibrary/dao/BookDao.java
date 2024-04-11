@@ -9,4 +9,8 @@ import java.util.Map;
 @Mapper
 public interface BookDao {
     public List<Book> getBookList(Map map) throws Exception;
+
+    public int getDataCount(Map map) throws Exception;
+
+    public Book getBookRead(int bookId) throws Exception;
 }

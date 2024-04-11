@@ -21,26 +21,45 @@
         <result column="book_id" property="bookId"/>
         <result column="book_name" property="bookName"/>
         <result column="book_author" property="bookAuthor"/>
-        <result column="book_summary" property="bookSummary"/>
+        <result column="book_publisher" property="bookPublisher"/>
+        <result column="book_intro" property="bookIntro"/>
         <result column="book_pubdate" property="bookPubDate"/>
         <result column="book_regdate" property="bookRegDate"/>
         <result column="id" property="id"/>
         <result column="category_id" property="categoryId"/>
 
-        <collection property="id" resultMap="User"/>
-        <collection property="categoryId" resultMap="BookCategory"/>
+        <collection property="user" resultMap="User"/>
+        <collection property="bookCategory" resultMap="BookCategory"/>
     </resultMap>
 
-    <select id="getPostList" parameterType="map" resultType="Post" resultMap="Post">
+    <select id="getBookList" parameterType="map" resultType="Book" resultMap="Book">
         SELECT * FROM (
         SELECT rownum rnum, DATA.* from
-        (SELECT b.book_id, b.book_name, b.book_author, b.book_summary, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate,
+        (SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate,
         c.category_id, c.category_name
-        FROM BOOK b, BOOK_CATEGORY c WHERE b.category_id = c.category_id AND b.id = 1
+        FROM BOOK b, BOOK_CATEGORY c WHERE b.category_id = c.category_id
+        AND b.id = 1
+        AND ${searchKey} LIKE '%' || #{searchValue} || '%'
+        <if test="categoryId != null">
+            AND c.category_id = #{categoryId}
+        </if>
         ORDER BY b.book_id DESC) DATA
         )
         <![CDATA[
             WHERE rnum >= #{start} AND rnum <= #{end}
         ]]>
+    </select>
+
+    <select id="getDataCount" parameterType="map" resultType="int">
+        SELECT NVL(count(*), 0) FROM book b
+        INNER JOIN BOOK_CATEGORY c ON b.category_id = c.category_id
+        WHERE ${searchKey} LIKE '%' || #{searchValue} || '%'
+    </select>89899
+
+    <select id="getBookRead" parameterType="int" resultType="Book" resultMap="Book">
+        SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate,
+        c.category_id, c.category_name
+        FROM BOOK b, BOOK_CATEGORY c
+        WHERE b.category_id = c.category_id AND b.book_ID = #{bookId}
     </select>
 </mapper>

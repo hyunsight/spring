@@ -17,4 +17,14 @@ public class BookServiceImpl implements BookService {
     public List<Book> getBookList(Map map) throws Exception {
         return bookDao.getBookList(map);
     }
+
+    @Override
+    public int getDataCount(Map map) throws Exception {
+        return bookDao.getDataCount(map);
+    }
+
+    @Override
+    public Book getBookRead(int bookId) throws Exception {
+        return bookDao.getBookRead(bookId);
+    }
 }
