@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<main layout:fragment="content" class="main">
+
+    <section class="pt-5 padding-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+
+                            <h2 class="mb-4">포스트 작성</h2>
+
+                            <form id="postForm" name="postForm" class="contact-form" method="post" action="/insert">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- https://getbootstrap.com/docs/4.1/components/forms/#form-controls -->
+                                        <div class="form-group">
+                                            <label for="categoryId">카테고리</label>
+                                            <select class="form-control" id="categoryId" name="categoryId">
+                                                <option value="001">문학</option>
+                                                <option value="002">비문학</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="bookName">책제목</label>
+                                            <input class="form-control form-control-name" name="bookName" id="bookName"
+                                                   type="text" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="bookAuthor">책저자</label>
+                                            <input class="form-control form-control-name" name="bookAuthor" id="bookAuthor"
+                                                   type="text" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="bookPublisher">퍼블리셔</label>
+                                            <input class="form-control form-control-name" name="bookPublisher" id="bookPublisher"
+                                                   type="text" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="bookPubDate">발행일</label>
+                                            <input class="form-control form-control-name" name="bookPubDate" id="bookPubDate"
+                                                   type="text" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="bookIntro">글쓰기</label>
+                                            <textarea id="bookIntro" name="bookIntro"></textarea>
+                                        </div>
+
+
+
+                                        <button class="btn btn-primary solid blank mt-3" type="button" onclick="beforeSubmit(); return false;">
+                                            포스트 등록하기
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- 각 페이지의 JS가 작성될 위치지정 -->
+<th:block layout:fragment="script">
+    <script th:src="@{plugins/ckeditor5/build/ckeditor.js}"></script>
+
+    <script th:inline="javascript">
+<!--        let myEditor;-->
+
+<!--        ClassicEditor-->
+<!--            .create( document.querySelector( '#editor' ), {-->
+<!--                ckfinder: {-->
+<!--                    uploadUrl : '/postImgUpload' //이미지 request 주소-->
+<!--                }-->
+<!--             })-->
+<!--            .then(editor => {-->
+<!--                myEditor = editor; //생성한 에디터 객체-->
+<!--            })-->
+<!--            .catch( error => {-->
+<!--                console.error( error );-->
+<!--        } );-->
+
+        function beforeSubmit() {
+            const f = document.postForm;
+
+            if(f.bookName.value == '') {
+                alert('제목을 등록해주세요.');
+                return;
+            }
+
+            if(bookAuthor == '') {
+                alert('내용을 등록해주세요');
+                return;
+            }
+
+<!--            f.content.value = content; //textarea에 에디터에 입력한 내용을 넣어줌-->
+            f.submit(); //전송
+        }
+    </script>
+</th:block>
+
+</html>

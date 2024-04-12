@@ -12,5 +12,10 @@ public interface BookService {
 
     public Book getBookRead(int bookId) throws Exception;
 
+    public void insertBook(Book book) throws Exception;
+
+    public void updateBook(Book book) throws Exception;
+
+    public void deleteBook(int bookId) throws Exception;
 
 }

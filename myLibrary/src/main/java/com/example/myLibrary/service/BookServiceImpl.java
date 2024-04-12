@@ -27,4 +27,19 @@ public class BookServiceImpl implements BookService {
     public Book getBookRead(int bookId) throws Exception {
         return bookDao.getBookRead(bookId);
     }
+
+    @Override
+    public void insertBook(Book book) throws Exception {
+        bookDao.insertBook(book);
+    }
+
+    @Override
+    public void updateBook(Book book) throws Exception {
+        bookDao.updateBook(book);
+    }
+
+    @Override
+    public void deleteBook(int bookId) throws Exception {
+        bookDao.deleteBook(bookId);
+    }
 }
