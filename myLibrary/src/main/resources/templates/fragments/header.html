@@ -7,13 +7,12 @@
     <div class="top-header">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
-                <!-- Breaking News Area -->
                 <div class="col-12 col-sm-8">
                     <div class="breaking-news-area">
                         <div id="breakingNewsTicker" class="ticker">
                             <ul>
-                                <li th:if="${session.userName == null}"><a href="#" style="color: #009bbb; font-weight: bold">Hello Guest님</a></li>
-                                <li th:if="${session.userName != null}"><a href="#" th:text="'Hello ' + ${session.userName} + '님'" style="color: #009bbb; font-weight: bold"></a></li>
+                                <li th:if="${session.userName == null}"><a href="#" style="font-weight: bold;">Hello Guest님</a></li>
+                                <li th:if="${session.userName != null}"><a href="#" th:text="'Hello ' + ${session.userName} + '님'" style="font-weight: bold;"></a></li>
                                 <li><a href="#" style="font-weight: bold">Hello World</a></li>
                             </ul>
                         </div>
@@ -38,7 +37,7 @@
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
-                    <a href="/" class="original-logo"><img src="img/core-img/logo.png" alt=""></a>
+                    <a href="/" class="original-logo"><img src="img/core-img/logo.png" alt="logo"></a>
                 </div>
             </div>
         </div>
@@ -48,10 +47,8 @@
     <div class="original-nav-area" id="stickyNav">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
-                <!-- Classy Menu -->
                 <nav class="classy-navbar justify-content-between">
-
-                    <!-- Subscribe btn -->
+                    <!-- login btn -->
                     <div class="subscribe-btn">
                         <a th:if="${session.userName == null}" href="/login" class="btn">로그인</a>
                         <span th:unless="${session.userName == null}">
@@ -59,18 +56,8 @@
                         </span>
                     </div>
 
-                    <!-- Navbar Toggler -->
-                    <div class="classy-navbar-toggler">
-                        <span class="navbarToggler">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </span>
-                    </div>
-
                     <!-- Menu -->
                     <div class="classy-menu" id="originalNav">
-                        <!-- close btn -->
                         <div class="classycloseIcon">
                             <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                         </div>
@@ -84,8 +71,8 @@
                                         <li><a href="/list">전체</a></li>
                                         <li><a href="#">카테고리</a>
                                             <ul class="dropdown">
-                                                <li><a href="/list?categoryId=1">문학</a></li>
-                                                <li><a href="/list?categoryId=2">비문학</a></li>
+                                                <li><a href="/list?categoryId=001">문학</a></li>
+                                                <li><a href="/list?categoryId=002">비문학</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -110,13 +97,13 @@
                             </ul>
 
                             <!-- Search Form  -->
-                            <div id="search-wrapper">
-                                <form action="#">
-                                    <input type="text" id="search" placeholder="Search something...">
-                                    <div id="close-icon"></div>
-                                    <input class="d-none" type="submit" value="">
-                                </form>
-                            </div>
+<!--                            <div id="search-wrapper">-->
+<!--                                <form action="#">-->
+<!--                                    <input type="text" id="search" placeholder="Search something...">-->
+<!--                                    <div id="close-icon"></div>-->
+<!--                                    <input class="d-none" type="submit" value="">-->
+<!--                                </form>-->
+<!--                            </div>-->
                         </div>
                         <!-- Nav End -->
                     </div>
@@ -125,6 +112,5 @@
         </div>
     </div>
 </header>
-<!-- ##### Header Area End ##### -->
 
 </html>
