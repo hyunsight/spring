@@ -18,4 +18,5 @@ public class Book {
 
     private User user;
     private BookCategory bookCategory;
+    private BookRent bookRent;
 }

@@ -4,40 +4,75 @@
       layout:decorate="~{layouts/layout1}">
 
 <main layout:fragment="content" class="main">
-    <div class="container" style="margin-top:80px;">
+    <div class="container list_container1">
+        <div class="row align-items-end">
+            <div class="col-12 col-lg-4">
+                <div class="single-blog-area clearfix ">
+                    <div class="single-blog-content">
+                        <div class="line"></div>
+                        <a href="#" class="post-tag">Original</a>
+                        <h4>
+                            <a href="/list" class="post-headline">전체</a>
+                            <a href="/list?categoryId=001" style="font-size:20px; padding-left:20px">문학</a>
+                            <a href="/list?categoryId=002" style="font-size:20px; padding-left:20px">비문학</a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container list_container2">
+        <div class="row justify-content-end">
+            <div class="col-12 d-flex justify-content-end mb-3">
+                <div th:if="${session.userGrade == 'admin'}" class="mr-auto">
+                    <button type="button" class="btn btn-dark write_btn"><a href="/write">신규 등록</a></button>
+                </div>
+                <form action="/list" method="post" name="searchForm" class="d-flex">
+                    <select name="searchKey" class="form-control col-3 me-4" style="border: none; background-color: #f0f0f0;">
+                        <option value="book_name" th:selected="${searchKey} == 'book_name'">제목</option>
+                        <option value="book_author" th:selected="${searchKey} == 'book_author'">저자</option>
+                    </select>
+                    <input type="text" name="searchValue" class="form-control col-6 me-4" placeholder="검색어 입력" th:value="${searchValue}"/>
+                    <input type="button" value="검색" class="btn btn-dark col-3" onclick="sendIt()" style="margin-left: 5px"/>
+                </form>
+            </div>
+        </div>
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <a href="/list" class="btn">전체</a>
-                <a href="/list?categoryId=1" class="btn">문학</a>
-                <a href="/list?categoryId=2" class="btn">비문학</a>
+            <div class="col-lg-12">
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">카테고리</th>
-                        <th scope="col">도서명</th>
-                        <th scope="col">도서저자</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">저자</th>
                         <th scope="col">출판사</th>
-                        <th scope="col">#</th>
+                        <th scope="col">출판일</th>
+                        <th scope="col">대여</th>
+                        <th scope="col" th:if="${session.userGrade == 'admin'}">관리</th>
                     </tr>
                     </thead>
-
                     <tbody>
-                    <!-- #lists.size(리스트 객체 키값) -->
                     <tr th:if="${#lists.size(lists)} > 0" th:each="book:${lists}">
                         <th scope="row" th:text="${book.bookCategory.categoryName}"></th>
                         <td>
                             <a th:href="|@{${articleUrl}}&bookId=@{${book.bookId}}|" th:text="${book.bookName}"></a>
                         </td>
+                        <td th:text="${book.bookAuthor}"></td>
+                        <td th:text="${book.bookPublisher}"></td>
                         <td th:text="${book.bookPubDate}"></td>
+                        <td>
+                            <a th:href="|@{${rentUrl}}&bookId=@{${book.bookId}}|">대여</a>
+                        </td>
+                        <td>
+                            <a th:onclick="|location.href='rewrite?bookId=@{${book.bookId}}&@{${params}}'|"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        </td>
                     </tr>
-
-                    <!-- 등록된 포스트가 없을 경우-->
                     <tr th:if="${#lists.size(lists)} == 0">
-                        <td colspan="5">등록된 게시물이 없습니다.</td>
+                        <td colspan="5">등록된 도서가 없습니다.</td>
                     </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
 
@@ -53,28 +88,6 @@
                 </nav>
             </div>
         </div>
-
-        <!-- 검색바 -->
-        <div class="row justify-content-center">
-            <div class="col-lg-7">
-                <form action="/list" method="post" name="searchForm">
-                    <div class="row">
-                        <div class="col-lg-3 px-1">
-                            <select name="searchKey" class="form-control">
-                                <option value="book_name" th:selected="${searchKey} == 'book_name'">제목</option>
-                                <option value="book_author" th:selected="${searchKey} == 'book_author'">저자</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-6 px-1">
-                            <input type="text" name="searchValue" class="form-control" placeholder="검색어입력" th:value="${searchValue}"/>
-                        </div>
-                        <div class="col-lg-3 px-1">
-                            <input type="button" value=" 검색 " class="btn btn-secondary" style="height: 100%;" onclick="sendIt()"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 </main>
 
@@ -83,16 +96,16 @@
     <script th:inline="javascript">
         function sendIt() {
             var f = document.searchForm;
-            var str = f.searchValue.value; //검색어
-            str = str.trim(); //글자 양쪽 공백 제거
+            var str = f.searchValue.value;
+            str = str.trim();
 
             if(!str) {
                 alert("검색어를 입력하세요.");
-                f.searchValue.focus(); //input 창에 포커스
+                f.searchValue.focus();
                 return;
             }
 
-            f.submit(); //form 태그 안의 내용을 전송
+            f.submit();
         }
     </script>
 </th:block>

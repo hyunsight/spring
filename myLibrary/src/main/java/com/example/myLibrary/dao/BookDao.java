@@ -1,6 +1,7 @@
 package com.example.myLibrary.dao;
 
 import com.example.myLibrary.dto.Book;
+import com.example.myLibrary.dto.BookRent;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,5 +20,9 @@ public interface BookDao {
     public void updateBook(Book book) throws Exception;
 
     public void deleteBook(int bookId) throws Exception;
+
+    public void rentBook(BookRent bookRent) throws Exception;
+
+    public Book getBookById(int bookId) throws Exception;
 
 }

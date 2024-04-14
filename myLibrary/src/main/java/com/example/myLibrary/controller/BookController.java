@@ -1,6 +1,7 @@
 package com.example.myLibrary.controller;
 
 import com.example.myLibrary.dto.Book;
+import com.example.myLibrary.dto.BookRent;
 import com.example.myLibrary.service.BookService;
 import com.example.myLibrary.util.PagingUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -75,6 +76,7 @@ public class BookController {
             String param = "";
             String listUrl = "/list";
             String articleUrl = "/view?pageNum=" + pagingUtil.getCurrentPage();
+            String rentUrl = "/rent?pageNum=" + pagingUtil.getCurrentPage();
 
             if (searchValue != null && !searchValue.equals("")) {
                 param = "searchKey=" + searchKey;
@@ -84,12 +86,14 @@ public class BookController {
             if (!param.equals("")) {
                 listUrl += "?" + param;
                 articleUrl += "&" + param;
+                rentUrl += "&" + param;
             }
 
             String pageIndexList = pagingUtil.pageIndexList(listUrl);
 
             model.addAttribute("lists", lists); //DB에서 가져온 전체 게시물리스트
             model.addAttribute("articleUrl", articleUrl); //상세페이지로 이동하기 위한 url
+            model.addAttribute("rentUrl", rentUrl);
             model.addAttribute("pageIndexList", pageIndexList); //페이징 버튼
             model.addAttribute("dataCount", dataCount); //게시물의 전체 개수
             model.addAttribute("searchKey", searchKey); //검색키워드
@@ -124,8 +128,10 @@ public class BookController {
                 param += "&searchKey=" + searchKey;
                 param += "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
             }
+            String rentStatus = book.getBookRent() != null ? book.getBookRent().getRentStatus() : null;
 
             model.addAttribute("book", book);
+            model.addAttribute("rentStatus", rentStatus);
             model.addAttribute("params", param);
             model.addAttribute("pageNum", pageNum);
 
@@ -247,4 +253,52 @@ public class BookController {
         return new ResponseEntity<Integer>(bookId, HttpStatus.OK);
     }
 
+    @GetMapping("/rent")
+    public String rent(HttpServletRequest request, HttpSession session, Model model) {
+        try {
+            int bookId = Integer.parseInt(request.getParameter("bookId"));
+            Integer id = (Integer) session.getAttribute("id");
+
+            if (id == null) {
+                return "redirect:/login";
+            }
+
+            Book book = bookService.getBookById(bookId);
+
+            if (book == null) {
+                return "redirect:/list";
+            }
+
+            model.addAttribute("book", book);
+            model.addAttribute("id", id);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "book/rent";
     }
+
+    @PostMapping("/updateRent")
+    public String updateRent(HttpServletRequest request, HttpSession session) {
+        try {
+            Integer id = (Integer) session.getAttribute("id");
+            int bookId = Integer.parseInt(request.getParameter("bookId"));
+
+            if (id == null) {
+                return "redirect:/login";
+            }
+
+            BookRent bookRent = new BookRent();
+            bookRent.setId(id);
+            bookRent.setBookId(bookId);
+            bookRent.setRentStatus("대여중");
+
+            bookService.rentBook(bookRent);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/list";
+    }
+}

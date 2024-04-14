@@ -2,6 +2,7 @@ package com.example.myLibrary.service;
 
 import com.example.myLibrary.dao.BookDao;
 import com.example.myLibrary.dto.Book;
+import com.example.myLibrary.dto.BookRent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(int bookId) throws Exception {
         bookDao.deleteBook(bookId);
+    }
+
+    @Override
+    public void rentBook(BookRent bookRent) throws Exception {
+        bookDao.rentBook(bookRent);
+    }
+
+    @Override
+    public Book getBookById(int bookId) throws Exception {
+        return bookDao.getBookById(bookId);
     }
 }

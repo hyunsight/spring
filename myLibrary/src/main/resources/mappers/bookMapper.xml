@@ -30,6 +30,18 @@
 
         <collection property="user" resultMap="User"/>
         <collection property="bookCategory" resultMap="BookCategory"/>
+        <collection property="bookRent" resultMap="BookRent"/>
+    </resultMap>
+
+    <resultMap id="BookRent" type="BookRent">
+        <result column="rent_id" property="rentId"/>
+        <result column="rent_date" property="rentDate"/>
+        <result column="rent_status" property="rentStatus"/>
+        <result column="id" property="id"/>
+        <result column="book_id" property="bookId"/>
+
+        <collection property="user" resultMap="User"/>
+        <collection property="book" resultMap="Book"/>
     </resultMap>
 
     <select id="getBookList" parameterType="map" resultType="Book" resultMap="Book">
@@ -58,9 +70,12 @@
 
     <select id="getBookRead" parameterType="int" resultType="Book" resultMap="Book">
         SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate,
-        c.category_id, c.category_name
-        FROM BOOK b, BOOK_CATEGORY c
-        WHERE b.category_id = c.category_id AND b.book_ID = #{bookId}
+        c.category_id, c.category_name,
+        br.rent_status
+        FROM BOOK b
+        JOIN BOOK_CATEGORY c ON b.category_id = c.category_id
+        LEFT JOIN BOOK_RENT br ON b.book_id = br.book_id
+        WHERE b.book_ID = #{bookId}
     </select>
 
     <insert id="insertBook" parameterType="Book">
@@ -77,4 +92,20 @@
     <delete id="deleteBook" parameterType="int">
         delete book where book_id = #{bookId}
     </delete>
+
+    <insert id="rentBook" parameterType="BookRent">
+        insert into book_rent
+        values(book_rent_seq.nextval, sysdate, #{rentStatus}, #{id}, #{bookId})
+    </insert>
+
+    <select id="getBookById" parameterType="int" resultMap="Book">
+        SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate,
+        TO_CHAR(b.book_regdate, 'YYYY-MM-DD') AS book_regdate,
+        c.category_id, c.category_name,
+        br.rent_id, TO_CHAR(br.rent_date, 'YYYY-MM-DD') AS rent_date, br.rent_status, br.id, br.book_id
+        FROM book b
+        JOIN book_category c ON b.category_id = c.category_id
+        LEFT JOIN book_rent br ON b.book_id = br.book_id
+        WHERE b.book_id = #{bookId}
+    </select>
 </mapper>
