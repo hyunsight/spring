@@ -25,6 +25,7 @@
         <result column="book_intro" property="bookIntro"/>
         <result column="book_pubdate" property="bookPubDate"/>
         <result column="book_regdate" property="bookRegDate"/>
+        <result column="book_img" property="bookImg"/>
         <result column="id" property="id"/>
         <result column="category_id" property="categoryId"/>
 
@@ -47,7 +48,7 @@
     <select id="getBookList" parameterType="map" resultType="Book" resultMap="Book">
         SELECT * FROM (
         SELECT rownum rnum, DATA.* from
-        (SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate,
+        (SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate, b.book_img,
         c.category_id, c.category_name
         FROM BOOK b, BOOK_CATEGORY c WHERE b.category_id = c.category_id
         AND b.id = 1
@@ -69,7 +70,7 @@
     </select>
 
     <select id="getBookRead" parameterType="int" resultType="Book" resultMap="Book">
-        SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate,
+        SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate, TO_char(b.book_regdate, 'YYYY-MM-DD') book_regdate, b.book_img,
         c.category_id, c.category_name,
         br.rent_status
         FROM BOOK b
@@ -80,7 +81,7 @@
 
     <insert id="insertBook" parameterType="Book">
         insert into Book
-        values(book_seq.nextval, #{bookName}, #{bookAuthor}, #{bookPublisher}, #{bookIntro}, #{bookPubDate}, sysdate, 1, #{categoryId})
+        values(book_seq.nextval, #{bookName}, #{bookAuthor}, #{bookPublisher}, #{bookIntro}, #{bookPubDate}, sysdate, #{bookImg}, 1, #{categoryId})
     </insert>
 
     <update id="updateBook" parameterType="Book">
@@ -100,7 +101,7 @@
 
     <select id="getBookById" parameterType="int" resultMap="Book">
         SELECT b.book_id, b.book_name, b.book_author, b.book_publisher, b.book_intro, b.book_pubdate,
-        TO_CHAR(b.book_regdate, 'YYYY-MM-DD') AS book_regdate,
+        TO_CHAR(b.book_regdate, 'YYYY-MM-DD') AS book_regdate, b.book_img,
         c.category_id, c.category_name,
         br.rent_id, TO_CHAR(br.rent_date, 'YYYY-MM-DD') AS rent_date, br.rent_status, br.id, br.book_id
         FROM book b

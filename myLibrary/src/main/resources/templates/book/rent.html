@@ -9,35 +9,26 @@
         <h2>책 대여</h2>
 
         <div class="book-details">
-            <!-- 선택한 책의 정보 표시 -->
             <h3>책 제목: <span th:text="${book.bookName}"></span></h3>
             <p>저자: <span th:text="${book.bookAuthor}"></span></p>
             <p>출판사: <span th:text="${book.bookPublisher}"></span></p>
             <p>소개: <span th:text="${book.bookIntro}"></span></p>
             <p>출판 일자: <span th:text="${book.bookPubDate}"></span></p>
-            <!-- 대여 상태와 날짜 표시 -->
             <p>대여 상태: <span th:text="${book.bookRent != null ? book.bookRent.rentStatus : '없음'}"></span></p>
             <p>대여 날짜: <span th:text="${book.bookRent != null ? book.bookRent.rentDate : '없음'}"></span></p>
         </div>
 
-        <form id="rentForm" method="post" th:action="@{/updateRent}">
-            <!-- 책 ID를 전송 -->
+        <form id="rentForm" method="post" th:action="@{/insertRent}">
             <input type="hidden" name="bookId" th:value="${book.bookId}" />
-
-            <!-- 사용자의 ID를 세션에서 가져옵니다. -->
             <input type="hidden" name="id" th:value="${id}" />
-
-            <!-- 대여 상태를 전송 -->
             <input type="hidden" name="rentStatus" th:value="${book.bookRent != null ? book.bookRent.rentStatus : ''}" />
-
-            <!-- 대여 상태에 따라 대여 버튼 활성화 여부 결정 -->
             <button type="submit" class="btn btn-primary"
-                    th:disabled="${book.bookRent != null}">대여하기</button>
+                    th:if="${book.bookRent.rentStatus == null}">대여하기</button>
+            <button type="submit" class="btn btn-primary"
+                    th:unless="${book.bookRent.rentStatus == null}">대여불가</button>
         </form>
 
-        <!-- 이전 페이지로 돌아가기 위한 버튼 -->
-        <a th:href="@{/list}" class="btn btn-secondary">목록으로 돌아가기</a>
-
+        <a href="/list" class="btn btn-secondary">목록으로 돌아가기</a>
     </div>
 
 </main>

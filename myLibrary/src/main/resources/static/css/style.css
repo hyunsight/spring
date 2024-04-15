@@ -1524,4 +1524,8 @@ textarea:focus ~ .highlight {
     background-color: #e04646;
 }
 
+.write_container2 .row {
+    margin-bottom: 15px
+}
+
 /*# sourceMappingURL=style.css.map */

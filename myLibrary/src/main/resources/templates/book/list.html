@@ -4,7 +4,7 @@
       layout:decorate="~{layouts/layout1}">
 
 <main layout:fragment="content" class="main">
-    <div class="container list_container1">
+    <div class="container list_container1" style="padding-bottom: 30px">
         <div class="row align-items-end">
             <div class="col-12 col-lg-4">
                 <div class="single-blog-area clearfix ">
@@ -81,8 +81,6 @@
             <div class="col-lg-10">
                 <nav aria-label="...">
                     <ul class="pagination justify-content-center">
-                        <!-- 태그로 출력 시 [(${변수})] 이용-->
-                        <!-- 텍스트로 출력 시 [[${변수}]] 이용-->
                         [(${pageIndexList})]
                     </ul>
                 </nav>

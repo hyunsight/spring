@@ -4,6 +4,7 @@ import com.example.myLibrary.dto.Book;
 import com.example.myLibrary.dto.BookRent;
 import com.example.myLibrary.service.BookService;
 import com.example.myLibrary.util.PagingUtil;
+import com.example.myLibrary.util.PhotoUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -26,6 +30,9 @@ public class BookController {
 
     @Autowired
     PagingUtil pagingUtil;
+
+    @Autowired
+    PhotoUtil photoUtil;
 
     @GetMapping(value = "/")
     public String index() {
@@ -146,17 +153,20 @@ public class BookController {
         return "book/write";
     }
 
-    @PostMapping(value = "/insert")
-    public String inserBook(Book book, HttpSession session) {
+    @PostMapping("/insert")
+    public String insertBook(Book book, HttpSession session) {
         try {
             Object id = session.getAttribute("id");
 
             if (id == null) {
                 return "redirect:/login";
-            } else {
-                book.setId((int)id);
-                bookService.insertBook(book);
             }
+
+            book.setId((int) id);
+
+            bookService.insertBook(book);
+
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -279,8 +289,8 @@ public class BookController {
         return "book/rent";
     }
 
-    @PostMapping("/updateRent")
-    public String updateRent(HttpServletRequest request, HttpSession session) {
+    @PostMapping("/insertRent")
+    public String insertRent(HttpServletRequest request, HttpSession session) {
         try {
             Integer id = (Integer) session.getAttribute("id");
             int bookId = Integer.parseInt(request.getParameter("bookId"));
@@ -300,5 +310,24 @@ public class BookController {
             throw new RuntimeException(e);
         }
         return "redirect:/list";
+    }
+
+
+    @PostMapping(value = "/postImgUpload")
+    public String postImgUpload(MultipartHttpServletRequest request, Model model) {
+
+        // /images/8840ebc8-4fe5.jpg
+        String uploadPath = photoUtil.ckUpload(request);
+
+        model.addAttribute("uploaded", true);
+        model.addAttribute("url", uploadPath);
+
+        /*
+            {
+             "uploaded": true,
+             "url": uploadPath
+            }
+        */
+        return "jsonView"; //model에 있는 값들이 json 객체 형식으로 forward 된다.
     }
 }

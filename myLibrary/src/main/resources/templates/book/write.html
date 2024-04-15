@@ -4,65 +4,76 @@
       layout:decorate="~{layouts/layout1}">
 
 <main layout:fragment="content" class="main">
-
-    <section class="pt-5 padding-bottom">
-        <div class="container">
+    <div class="container write_container1" style="padding-bottom: 30px">
+        <div class="row align-items-end">
+            <div class="col-12 col-lg-4">
+                <div class="single-blog-area clearfix ">
+                    <div class="single-blog-content">
+                        <div class="line"></div>
+                        <a href="#" class="post-tag">Original</a>
+                        <h4>
+                            <a href="/list" class="post-headline">도서 등록</a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="padding-bottom">
+        <div class="container write_container2" style="padding-bottom: 50px">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
-
-                            <h2 class="mb-4">포스트 작성</h2>
-
                             <form id="postForm" name="postForm" class="contact-form" method="post" action="/insert">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- https://getbootstrap.com/docs/4.1/components/forms/#form-controls -->
-                                        <div class="form-group">
-                                            <label for="categoryId">카테고리</label>
-                                            <select class="form-control" id="categoryId" name="categoryId">
-                                                <option value="001">문학</option>
-                                                <option value="002">비문학</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="bookName">책제목</label>
-                                            <input class="form-control form-control-name" name="bookName" id="bookName"
-                                                   type="text" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="bookAuthor">책저자</label>
-                                            <input class="form-control form-control-name" name="bookAuthor" id="bookAuthor"
-                                                   type="text" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="bookPublisher">퍼블리셔</label>
-                                            <input class="form-control form-control-name" name="bookPublisher" id="bookPublisher"
-                                                   type="text" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="bookPubDate">발행일</label>
-                                            <input class="form-control form-control-name" name="bookPubDate" id="bookPubDate"
-                                                   type="text" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="bookIntro">글쓰기</label>
-                                            <textarea id="bookIntro" name="bookIntro"></textarea>
-                                        </div>
-
-
-
-                                        <button class="btn btn-primary solid blank mt-3" type="button" onclick="beforeSubmit(); return false;">
-                                            포스트 등록하기
-                                        </button>
-
+                                    <div class="form-group col-md-12">
+                                        <label for="bookName"><i class="fa fa-tag" aria-hidden="true"></i> 도서명</label>
+                                        <input class="form-control form-control-name" name="bookName" id="bookName" type="text" required>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="categoryId"><i class="fa fa-tag" aria-hidden="true"></i> 카테고리</label>
+                                        <select class="form-control" id="categoryId" name="categoryId" style="height: 50px" >
+                                            <option value="001">문학</option>
+                                            <option value="002">비문학</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label for="bookAuthor"><i class="fa fa-tag" aria-hidden="true"></i> 저자</label>
+                                        <input class="form-control form-control-name" name="bookAuthor" id="bookAuthor"
+                                               type="text" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="bookPubDate"><i class="fa fa-tag" aria-hidden="true"></i> 출판일</label>
+                                        <input class="form-control form-control-name" name="bookPubDate" id="bookPubDate"
+                                               type="text" required>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label for="bookPublisher"><i class="fa fa-tag" aria-hidden="true"></i> 출판사</label>
+                                        <input class="form-control form-control-name" name="bookPublisher" id="bookPublisher"
+                                               type="text" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="bookIntro"><i class="fa fa-pencil" aria-hidden="true"></i> 책 소개</label>
+                                        <textarea class="form-control form-control-bookIntro" id="bookIntro" name="bookIntro" style="height: 100px"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="bookImg"><i class="fa fa-picture-o" aria-hidden="true"></i> 이미지 업로드</label>
+                                        <input type="file" id="bookImg" name="bookImg" style="margin-left: 1rem;">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <button class="btn btn-primary col-md-3 solid blank" type="button" onclick="beforeSubmit(); return false;">
+                                        등록하기
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -76,40 +87,44 @@
 
 <!-- 각 페이지의 JS가 작성될 위치지정 -->
 <th:block layout:fragment="script">
-    <script th:src="@{plugins/ckeditor5/build/ckeditor.js}"></script>
-
     <script th:inline="javascript">
-<!--        let myEditor;-->
+        async function uploadImage() {
+           var input = document.getElementById('bookImg');
+           var file = input.files[0]; // 선택된 파일 가져오기
 
-<!--        ClassicEditor-->
-<!--            .create( document.querySelector( '#editor' ), {-->
-<!--                ckfinder: {-->
-<!--                    uploadUrl : '/postImgUpload' //이미지 request 주소-->
-<!--                }-->
-<!--             })-->
-<!--            .then(editor => {-->
-<!--                myEditor = editor; //생성한 에디터 객체-->
-<!--            })-->
-<!--            .catch( error => {-->
-<!--                console.error( error );-->
-<!--        } );-->
+           if (file) {
+               var formData = new FormData();
+               formData.append('bookImg', file);
 
-        function beforeSubmit() {
-            const f = document.postForm;
+               try {
+                   const response = await fetch('/postImgUpload', { // 이미지 업로드 URL
+                       method: 'POST',
+                       body: formData,
+                   });
+                   const data = await response.json();
+                   console.log('Success:', data);
+                   return data; // 서버로부터 받은 데이터 반환
+               } catch (error) {
+                   console.error('Error:', error);
+               }
+           }
+       }
 
-            if(f.bookName.value == '') {
-                alert('제목을 등록해주세요.');
-                return;
-            }
+       async function beforeSubmit() {
+           const imgData = await uploadImage();
+           const f = document.postForm;
 
-            if(bookAuthor == '') {
-                alert('내용을 등록해주세요');
-                return;
-            }
+           if(f.bookName.value == '') {
+               alert('제목을 등록해주세요.');
+               return;
+           }
 
-<!--            f.content.value = content; //textarea에 에디터에 입력한 내용을 넣어줌-->
-            f.submit(); //전송
-        }
+           if(bookIntro == '') {
+               alert('내용을 등록해주세요');
+               return;
+           }
+           f.submit(); //전송
+       }
     </script>
 </th:block>
 
