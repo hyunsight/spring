@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <title>전체 게시글</title>
+    <th:block layout:fragment="css">
+        <style></style>
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="custom-border-bottom py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span>
+                    <strong class="text-black">전체 게시글</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-9 order-1">
+                    <div class="row align">
+                        <div class="col-md-12 mb-5">
+                            <div class="float-md-left"><h2 class="text-black h5">전체</h2></div>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <th:block th:each="post, status : ${posts}">
+                            <div class="col-lg-6 col-md-6 item-entry mb-4">
+                                <a th:href="'/post/' + ${post.id}" class="product-item md-height bg-gray d-block">
+                                </a>
+                                <h2 class="post-title">
+                                    <a th:href="'/post/' + ${post.id}" th:text="${post.title}"></a>
+                                </h2>
+
+                                <div class="star-rating">
+                                    <span class="icon-star2 text-warning" th:text="${post.title}"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination d-flex justify-content-center">
+                                    <li class="page-item" th:classappend="${posts.first} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{'/posts/list' + '?searchQuery=' + ${postSearchDto.searchQuery} + '&page=' + ${posts.number - 1}}">이전</a>
+                                    </li>
+
+                                    <li class="page-item" th:each="page : ${#numbers.sequence(start, end)}"
+                                        th:classappend="${posts.number eq page-1} ? 'active' : ''">
+                                        <a class="page-link"
+                                           th:href="@{'/posts/list' + '?searchQuery=' + ${postSearchDto.searchQuery} + '&page=' + ${page - 1}}"
+                                           th:text="${page}"></a>
+                                    </li>
+
+                                    <li class="page-item" th:classappend="${posts.last} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{'/post/list' + '?searchQuery=' + ${postSearchDto.searchQuery} + '&page=' + ${posts.number + 1}}">다음</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 order-2 mb-5 mb-md-0">
+                    <div class="border p-4 rounded mb-4">
+                        <div class="mb-4">
+                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+                            <div id="slider-range" class="border-primary"></div>
+                            <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled=""/>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
+                            <label for="s_sm" class="d-flex"> <input type="checkbox" id="s_sm" class="mr-2 mt-1"/> <span class="text-black">Small (2,319)</span> </label>
+                            <label for="s_md" class="d-flex"> <input type="checkbox" id="s_md" class="mr-2 mt-1"/> <span class="text-black">Medium (1,282)</span> </label>
+                            <label for="s_lg" class="d-flex"> <input type="checkbox" id="s_lg" class="mr-2 mt-1"/> <span class="text-black">Large (1,392)</span> </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript"></script>
+</th:block>
+</body>
+</html>

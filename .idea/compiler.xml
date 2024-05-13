@@ -21,5 +21,10 @@
         <module name="springbasic2.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="shopmax" target="17" />
+      <module name="shopmax.main" target="17" />
+      <module name="shopmax.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

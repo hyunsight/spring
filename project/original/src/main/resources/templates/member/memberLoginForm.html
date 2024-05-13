@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<main layout:fragment="content" class="main">
+    <div class="coming-soon-area bg-img background-overlay" style="background-image: url(/img/bg-img/bg3.jpeg);">
+        <div class="contact-area section-padding-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                <form role="form" action="/members/login" method="post">
+                                    <h3 class="mb-4 text-center">로그인</h3>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="email"></label>
+                                                <input class="form-control form-control-email" name="email" id="email"
+                                                       type="text" placeholder="이메일을 입력해주세요." maxlength="250" required>
+                                                </div>
+                                            <div class="form-group">
+                                                <label for="password"></label>
+                                                <input class="form-control form-control-password" name="password" id="password"
+                                                       type="password" placeholder="비밀번호를 입력해주세요." maxlength="250" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <p th:if="${loginErrorMsg}" th:text="${loginErrorMsg}" class="error"></p>
+                                                <label>
+                                                    <input type="checkbox" name="email_save" id="email_save" />이메일 기억
+                                                </label>
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary mb-3" id="loginbtn">로그인</button>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5" id="register" style="text-align:center; padding-top:20px;">
+                                <a href="/members/new" style="color:#dc3545; font-size:15px;">회원가입 하시겠습니까?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/cookie.js}"></script>
+    <script th:inline="javascript">
+        var userInputId = getCookie("userInputId");
+
+
+    </script>
+</th:block>
+</html>

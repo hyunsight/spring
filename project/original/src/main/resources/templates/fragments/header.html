@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- Header Start -->
+<header th:fragment="header" class="header-area">
+    <!-- Top Header -->
+    <div class="top-header">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 col-sm-8">
+                    <div class="breaking-news-area">
+                        <div id="breakingNewsTicker" class="ticker">
+                            <ul>
+                                <li th:if="${session.userName == null}"><a href="#" style="font-weight: bold;">Hello Guest님</a></li>
+                                <li th:if="${session.userName != null}"><a href="#" th:text="'Hello ' + ${session.userName} + '님'" style="font-weight: bold;"></a></li>
+                                <li><a href="#" style="font-weight: bold">Hello World</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top Social -->
+                <div class="col-12 col-sm-4">
+                    <div class="top-social-area">
+                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="Language"><i class="fa fa-globe" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="logo-area text-center">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <a href="/" class="original-logo"><img src="/img/core-img/logo.png" alt="logo"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="original-nav-area" id="stickyNav">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <nav class="classy-navbar justify-content-between">
+                    <!-- login btn -->
+                    <div class="subscribe-btn">
+                        <a sec:authorize="isAnonymous()" href="/members/login" class="btn">로그인</a>
+                        <a sec:authorize="isAuthenticated()" href="/members/logout" class="btn">로그아웃</a>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu" id="originalNav">
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="#">Book</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/list">전체</a></li>
+                                        <li><a href="#">카테고리</a>
+                                            <ul class="dropdown">
+                                                <li><a href="/list?categoryId=001">문학</a></li>
+                                                <li><a href="/list?categoryId=002">비문학</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Service</a>
+                                    <ul class="dropdown">
+                                        <li><a href="#">대여</a>
+                                            <ul class="dropdown">
+                                                <li><a href="#">대여현황</a></li>
+                                            </ul>
+                                        </li>
+                                        <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                                            <a href="#">관리</a>
+                                            <ul class="dropdown">
+                                                <li><a href="/admin/book/new">도서등록</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="/">About</a></li>
+                                <li><a href="/">Contact</a></li>
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+</html>

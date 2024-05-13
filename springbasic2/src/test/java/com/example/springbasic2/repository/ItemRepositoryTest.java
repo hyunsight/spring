@@ -12,6 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
@@ -318,6 +320,38 @@ public class ItemRepositoryTest {
 
         JPAQuery query = qf.selectFrom(qItem)
                 .where(qItem.itemDetail.like("%설명1"));
+
+        List<Item> itemList = query.fetch();
+
+        for (Item item : itemList) {
+            System.out.println(item);
+        }
+    }
+
+
+    @Test
+    @DisplayName("querydsl 조회 테스트2")
+    public void queryDslTest2() {
+        JPAQueryFactory qf = new JPAQueryFactory(em);
+        QItem qItem = QItem.item;
+
+        /*
+        select * from item
+        where item_sell_status = 'SELL'
+        and item_detail like '%테스트 상품 상세%'
+        and price > 10003;
+        */
+
+        //페이징 (객체)
+        // - Pageable은 0부터 시작되도록 설계
+        Pageable page = PageRequest.of(0, 4); //of(시작페이지 번호 (주의: 0부터 시작), 한 페이지당 조회할 레코드의 개수)
+
+        JPAQuery<Item> query = qf.selectFrom(qItem)
+                .where(qItem.itemSellStatus.eq(ItemSellStatus.SELL))
+                .where(qItem.itemDetail.like("%테스트 상품 상세%"))
+                .where(qItem.price.gt(10003))
+                .offset(page.getOffset()) //페이징 처리 시 쿼리문 뒤에 해당 두줄 작성 필요
+                .limit(page.getPageSize());
 
         List<Item> itemList = query.fetch();
 
